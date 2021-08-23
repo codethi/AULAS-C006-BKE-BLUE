@@ -1,8 +1,9 @@
-const express = require("express");
+const express = require("express"); // Baixar o express no terminal com o comando: npm i express
 const app = express();
 
 app.use(express.json()); // Converter requisição para JavaScript Object Notation (JSON)
 
+const port = 3000 // constante para salvar a porta do servidor;
 const filmes = [
     "Capitão America", 
     "Capitã Marvel", 
@@ -51,6 +52,11 @@ app.delete("/filmes/:id", (req, res) => {
     res.send("Filme apagado com sucesso!");
 })
 
-app.listen(3000, () => {
-    console.log('Servidor rodando em http://localhost:3000')
+
+
+/* 
+A função listen do objeto app serve para "ligar" o nosso back-end ou servir o nosso back-end
+É obrigatório que essa chamada de função esteja SEMPRE no final do nosso código! */
+app.listen(port, () => { // recebe dois parametros, a porta e um função de callback para principalmente mostra um mensagem no console.
+  console.log(`Servidor rodando em http://localhost:${port}`)
 });
