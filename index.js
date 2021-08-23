@@ -12,8 +12,8 @@ const filmes = [
 // CRUD - Create[POST] - Read[GET] - Update[PUT] - Delete[DELETE]
 
 // GET / - home
-app.get("/", (req, res) => {
-  res.send("Hello World Express");
+app.get("/", (req, res) => { // rota de GET, recebe o nome da rota e uma função de callback com requisição ao servidor e resposta do servidor.
+  res.send("Hello World Express"); // Responde na tela um texto.
 });
 
 // GET /filmes - Retornar a lista de filmes
