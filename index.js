@@ -33,12 +33,13 @@ app.get("/filmes", (req, res) => {
   res.json({ filmes }); // .json converte nosso array ou objeto para JSON
 });
 
-// GET /filmes/{id} - Retornar a lista de filmes pelo ID
-app.get("/filmes/:id", (req, res) => {
-  const id = req.params.id - 1;
-  const filme = filmes[id];
 
-  !filme ? res.send("Filme não existe") : res.send(filme);
+// GET /filmes/{id} - Retornar a lista de filmes pelo ID
+app.get("/filmes/:idFilme", (req, res) => { // Rota com recebimento de parametro (:id)
+  const id = +req.params.idFilme;
+  const filme = filmes.find(filme => filme.id === id);
+
+  !filme ? res.status(404).send({ error: "Filme não existe"}) : res.json({filme});
 });
 
 // POST - /filmes - Criar um novo filme
