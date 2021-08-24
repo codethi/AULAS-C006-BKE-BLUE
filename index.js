@@ -1,9 +1,11 @@
-const express = require("express"); // Baixar o express no terminal com o comando: npm i express
-const app = express();
+// Baixar o express no terminal com o comando: npm i express
+const express = require("express"); // importa o módulo express do node_modules
+const app = express(); // cria o nosso objeto app, que vai poder utilizar tudo o que o express possui
 
-app.use(express.json()); // Converter requisição para JavaScript Object Notation (JSON)
+app.use(express.json()); // Converte requisições e repostas para JSON (JavaScript Object Notation)
 
 const port = 3000 // constante para salvar a porta do servidor;
+
 const filmes = [
     "Capitão America", 
     "Capitã Marvel", 
@@ -14,12 +16,12 @@ const filmes = [
 
 // GET / - home
 app.get("/", (req, res) => { // rota de GET, recebe o nome da rota e uma função de callback com requisição ao servidor e resposta do servidor.
-  res.send("Hello World Express"); // Responde na tela um texto.
+  res.status(200).send("Hello World Express"); // Responde na tela um texto.
 });
 
 // GET /filmes - Retornar a lista de filmes
 app.get("/filmes", (req, res) => {
-  res.send(filmes);
+  res.send({listaDeFilmes: filmes});
 });
 
 // GET /filmes/{id} - Retornar a lista de filmes pelo ID
