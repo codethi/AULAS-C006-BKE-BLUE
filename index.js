@@ -25,7 +25,7 @@ const filmes = [
 // GET / - home
 app.get("/", (req, res) => {
   // rota de GET, recebe o nome da rota e uma função de callback com requisição ao servidor e resposta do servidor.
-  res.status(200).send("Hello World Express"); // Responde na tela um texto.
+  res.status(200).send({ hello: "Hello World Express"}); // Responde na tela um texto.
 });
 
 // GET /filmes - Retornar a lista de filmes
@@ -44,9 +44,13 @@ app.get("/filmes/:idFilme", (req, res) => { // Rota com recebimento de parametro
 
 // POST - /filmes - Criar um novo filme
 app.post("/filmes", (req, res) => {
-  const filme = req.body.filme;
+  const filme = req.body; // Pego o JSON inteiro do body e insiro na const filme (desse lado é convertido para um obejto "normal" de js)
+
+  if (!filme || !filme.nome || !filme.duracao)
+    res.status(400).send({ error: 'Filme inválido!'})
+
   filmes.push(filme);
-  res.send("Filme inserido com sucesso!");
+  res.status(201).send({ resp: "Filme inserido com sucesso!"});
 });
 
 // PUT - /filmes/{id} - Altera um filme pelo ID
