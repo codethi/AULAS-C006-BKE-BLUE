@@ -7,7 +7,7 @@ app.use(express.json()); // Converte requisições e repostas para JSON (JavaScr
 const port = 3000; // constante para salvar a porta do servidor;
 
 const filmes = [
-  {
+  /* {
     id: 1,
     nome: "Capitão America",
     duracao: 160,
@@ -16,16 +16,15 @@ const filmes = [
     id: 2,
     nome: "Capitã Marvel",
     duracao: 200,
-  },
+  }, */
 ];
-
 
 // CRUD - Create[POST] - Read[GET] - Update[PUT] - Delete[DELETE]
 
 // GET / - home
 app.get("/", (req, res) => {
   // rota de GET, recebe o nome da rota e uma função de callback com requisição ao servidor e resposta do servidor.
-  res.status(200).send({ hello: "Hello World Express"}); // Responde na tela um texto.
+  res.status(200).send({ hello: "Hello World Express" }); // Responde na tela um texto.
 });
 
 // GET /filmes - Retornar a lista de filmes
@@ -33,24 +32,43 @@ app.get("/filmes", (req, res) => {
   res.json({ filmes }); // .json converte nosso array ou objeto para JSON
 });
 
-
 // GET /filmes/{id} - Retornar a lista de filmes pelo ID
-app.get("/filmes/:idFilme", (req, res) => { // Rota com recebimento de parametro (:id)
+app.get("/filmes/:idFilme", (req, res) => {
+  // Rota com recebimento de parametro (:id)
   const id = +req.params.idFilme;
-  const filme = filmes.find(filme => filme.id === id);
+  const filme = filmes.find((filme) => filme.id === id);
 
-  !filme ? res.status(404).send({ error: "Filme não existe"}) : res.json({filme});
+  !filme
+    ? res.status(404).send({ error: "Filme não existe" })
+    : res.json({ filme });
 });
 
 // POST - /filmes - Criar um novo filme
 app.post("/filmes", (req, res) => {
   const filme = req.body; // Pego o JSON inteiro do body e insiro na const filme (desse lado é convertido para um obejto "normal" de js)
 
-  if (!filme || !filme.nome || !filme.duracao)
-    res.status(400).send({ error: 'Filme inválido!'})
+  if (!filme || !filme.nome || !filme.duracao) {
+    res.status(400).send({ error: "Filme inválido!" });
+    return;
+  }
 
-  filmes.push(filme);
-  res.status(201).send({ resp: "Filme inserido com sucesso!"});
+  // Pega o último elemento da lista filmes
+  const ultimoFilme = filmes[filmes.length - 1];
+
+  console.log(filmes.length)
+
+  // Testa se a lista não está vazia
+  if (filmes.length) { // Se o retorno de filmes.length for 0 faça...  (0 == false)
+    // Pegar o valor do ultimo id disponivel e somar + 1
+    filme.id = ultimoFilme.id + 1;
+    filmes.push(filme); // Insere o objeto filme no array filmes
+  } else {
+    // Caso a lista esteja vazia o valor de id é 1
+    filme.id = 1;
+    filmes.push(filme);// Insere o objeto filme no array filmes
+  }
+
+  res.status(201).send({ filme });
 });
 
 // PUT - /filmes/{id} - Altera um filme pelo ID
