@@ -21,7 +21,7 @@ app.get("/", (req, res) => { // rota de GET, recebe o nome da rota e uma funçã
 
 // GET /filmes - Retornar a lista de filmes
 app.get("/filmes", (req, res) => {
-  res.send({listaDeFilmes: filmes});
+  res.json({filmes});
 });
 
 // GET /filmes/{id} - Retornar a lista de filmes pelo ID
