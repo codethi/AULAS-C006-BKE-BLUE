@@ -19,11 +19,14 @@ const filmes = [
   },
 ];
 
+// Função responsável por filtrar apenas os filmes que possuem valores válidos, ou seja, não são null.
+const getFilmesValidos = () => filmes.filter(Boolean);
+
 // Função responsável por fazer o getById de filmes:
-const getFilmeById = id => filmes.find(filme => filme.id === id); 
+const getFilmeById = id => getFilmesValidos().find(filme => filme.id === id); 
 
 // Função responsável por fazer o getByIndex de filmes:
-const getFilmeIndexById = id => filmes.findIndex(filme => filme.id === id)
+const getFilmeIndexById = id => getFilmesValidos().findIndex(filme => filme.id === id)
 
 // CRUD - Create[POST] - Read[GET] - Update[PUT] - Delete[DELETE]
 
