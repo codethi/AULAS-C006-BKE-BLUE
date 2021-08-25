@@ -7,7 +7,7 @@ app.use(express.json()); // Converte requisições e repostas para JSON (JavaScr
 const port = 3000; // constante para salvar a porta do servidor;
 
 const filmes = [
-  /* {
+  {
     id: 1,
     nome: "Capitão America",
     duracao: 160,
@@ -16,7 +16,7 @@ const filmes = [
     id: 2,
     nome: "Capitã Marvel",
     duracao: 200,
-  }, */
+  },
 ];
 
 // CRUD - Create[POST] - Read[GET] - Update[PUT] - Delete[DELETE]
@@ -36,7 +36,7 @@ app.get("/filmes", (req, res) => {
 app.get("/filmes/:idFilme", (req, res) => {
   // Rota com recebimento de parametro (:id)
   const id = +req.params.idFilme;
-  const filme = filmes.find((filme) => filme.id === id);
+  const filme = filmes.find(filme => filme.id === id);
 
   !filme
     ? res.status(404).send({ error: "Filme não existe" })
@@ -73,10 +73,32 @@ app.post("/filmes", (req, res) => {
 
 // PUT - /filmes/{id} - Altera um filme pelo ID
 app.put("/filmes/:id", (req, res) => {
-  const id = req.params.id - 1;
-  const filme = req.body.filme;
-  filmes[id] = filme;
-  res.send("Filme alterado com sucesso!");
+  const id = +req.params.id;
+
+  // findIndex retorna a posição do objeto dentro do array(filmes), caso não exista, retorna -1
+  const filmeIndex = filmes.findIndex(filme => filme.id === id)
+
+  // Validação para verificar se o filme existe no array
+  if (filmeIndex < 0) {
+    res.status(404).send({error: "Filme não encontrado."});
+    return;
+  }
+
+  // Pega o objeto JSON enviado no body da requisição
+  const novoFilme = req.body;
+
+  // Valida se todos os campos necessários foram enviados.
+  if (!novoFilme || !novoFilme.nome || !novoFilme.duracao) {
+    res.status(400).send({ error: "Filme inválido!" });
+    return;
+  }
+
+  // Procuro o filme cadastrado no meu array, pelo id passado no parametro, e insiro o objeto inteiro, dentro da const filme.
+  //const filme = filmes.find(filme => filme.id === id)
+
+  filmes[filmeIndex] = novoFilme 
+
+  res.send({ message: "Filme alterado com sucesso!"});
 });
 
 // Delete - filmes/{id} - apagar um filme pelo ID
