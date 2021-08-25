@@ -19,6 +19,12 @@ const filmes = [
   },
 ];
 
+// Função responsável por fazer o getById de filmes:
+const getFilmeById = id => filmes.find(filme => filme.id === id); 
+
+// Função responsável por fazer o getByIndex de filmes:
+const getFilmeIndexById = id => filmes.findIndex(filme => filme.id === id)
+
 // CRUD - Create[POST] - Read[GET] - Update[PUT] - Delete[DELETE]
 
 // GET / - home
@@ -36,7 +42,7 @@ app.get("/filmes", (req, res) => {
 app.get("/filmes/:idFilme", (req, res) => {
   // Rota com recebimento de parametro (:id)
   const id = +req.params.idFilme;
-  const filme = filmes.find(filme => filme.id === id);
+  const filme = getFilmeById(id)
 
   !filme
     ? res.status(404).send({ error: "Filme não existe" })
@@ -76,7 +82,7 @@ app.put("/filmes/:id", (req, res) => {
   const id = +req.params.id;
 
   // findIndex retorna a posição do objeto dentro do array(filmes), caso não exista, retorna -1
-  const filmeIndex = filmes.findIndex(filme => filme.id === id)
+  const filmeIndex = getFilmeIndexById(id)
 
   // Validação para verificar se o filme existe no array
   if (filmeIndex < 0) {
@@ -94,7 +100,7 @@ app.put("/filmes/:id", (req, res) => {
   }
 
   // Procuro o filme cadastrado no meu array, pelo id passado no parametro, e insiro o objeto inteiro, dentro da const filme.
-  const filme = filmes.find(filme => filme.id === id)
+  const filme = getFilmeById(id)
   
   // Adiciona o id do filme antigo no filme novo:
   novoFilme.id = filme.id
@@ -108,7 +114,7 @@ app.put("/filmes/:id", (req, res) => {
 app.delete("/filmes/:id", (req, res) => {
   const id = +req.params.id;
 
-  const filmeIndex = filmes.findIndex(filme => filme.id === id)
+  const filmeIndex = getFilmeIndexById(id)
   if (filmeIndex < 0) {
     res.status(404).send({error: "Filme não encontrado."});
     return;
