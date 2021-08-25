@@ -106,9 +106,17 @@ app.put("/filmes/:id", (req, res) => {
 
 // Delete - filmes/{id} - apagar um filme pelo ID
 app.delete("/filmes/:id", (req, res) => {
-  const id = req.params.id - 1;
-  delete filmes[id];
-  res.send("Filme apagado com sucesso!");
+  const id = +req.params.id;
+
+  const filmeIndex = filmes.findIndex(filme => filme.id === id)
+  if (filmeIndex < 0) {
+    res.status(404).send({error: "Filme não encontrado."});
+    return;
+  }
+
+  filmes.splice(filmeIndex, 1);
+
+  res.send({ message: "Filme apagado com sucesso!"});
 });
 
 /* 
