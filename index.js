@@ -94,8 +94,11 @@ app.put("/filmes/:id", (req, res) => {
   }
 
   // Procuro o filme cadastrado no meu array, pelo id passado no parametro, e insiro o objeto inteiro, dentro da const filme.
-  //const filme = filmes.find(filme => filme.id === id)
-
+  const filme = filmes.find(filme => filme.id === id)
+  
+  // Adiciona o id do filme antigo no filme novo:
+  novoFilme.id = filme.id
+  // Insere o filme novo, na posição encontrada findIndex, do array.
   filmes[filmeIndex] = novoFilme 
 
   res.send({ message: "Filme alterado com sucesso!"});
