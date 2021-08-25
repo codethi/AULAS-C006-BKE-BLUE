@@ -114,6 +114,7 @@ app.delete("/filmes/:id", (req, res) => {
     return;
   }
 
+  // O Splice recebe dois parametros, a posição do valor a ser apagada e "quantos" valores quero apagar depois desse na minha lista, se eu quiser apagar apenas ele mesmo, colo o numero 1.
   filmes.splice(filmeIndex, 1);
 
   res.send({ message: "Filme apagado com sucesso!"});
