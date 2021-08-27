@@ -1,5 +1,5 @@
 const express = require("express");
-const filmeSchema = require('./models/Filme');
+const FilmeSchema = require('./models/Filme');
 
 const app = express();
 const port = 3000;
@@ -10,7 +10,7 @@ app.get("/", (req, res) => {
 });
 
 app.get('/filmes', async (req, res) => {
-  const filmes = await filmeSchema.find();
+  const filmes = await FilmeSchema.find();
   res.send(filmes);
 });
 

@@ -1,6 +1,6 @@
 const mongoose = require("../database/index");
 
-const filmeSchema = new mongoose.Schema({
+const FilmeSchema = new mongoose.Schema({
   nome: {
     type: String,
     require: true,
@@ -11,6 +11,6 @@ const filmeSchema = new mongoose.Schema({
   },
 });
 
-const Filme = mongoose.model("Filme", filmeSchema);
+const Filme = mongoose.model("Filme", FilmeSchema);
 
 module.exports = Filme;
