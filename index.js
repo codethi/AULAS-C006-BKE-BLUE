@@ -45,15 +45,14 @@ app.post("/filmes", async (req, res) => {
 
   const novoFilme = await new FilmeSchema(filme).save();
 
-  res.status(201).send({novoFilme})
-
+  res.status(201).send({ novoFilme });
 });
 
 // [PUT] - filmes/:id Atualiza um filme pelo Id
 
-app.put('/filmes/:id', async (req, res) => {
+app.put("/filmes/:id", async (req, res) => {
   const id = req.params.id;
-  
+
   if (!mongoose.Types.ObjectId.isValid(id)) {
     res.status(422).send({ error: "Id inválido" });
     return;
@@ -73,12 +72,33 @@ app.put('/filmes/:id', async (req, res) => {
     return;
   }
 
-  await FilmeSchema.findOneAndUpdate({_id: id}, novoFilme);
+  // Procura um document pelo id no banco e altera o document inteiro.
+  await FilmeSchema.findOneAndUpdate({ _id: id }, novoFilme);
+  // Busca o document atualizado no banco e insere na const filmeAtualizado
   const filmeAtualizado = await FilmeSchema.findById(id);
 
-  res.send({filmeAtualizado})
+  res.send({ filmeAtualizado });
+});
 
-})
+// [DELETE] - /filmes/:id - Remover um filme pelo Id
+app.delete("/filmes/:id", async (req, res) => {
+  const id = req.params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(422).send({ error: "Id inválido" });
+    return;
+  }
+
+  const filme = await FilmeSchema.findById(id);
+
+  if (!filme) {
+    res.status(404).send({ error: "Filme não encontrado!" });
+    return;
+  }
+
+  await FilmeSchema.findByIdAndDelete(id);
+  res.send({message: 'Filme excluído com sucesso!'})
+});
 
 app.listen(port, () =>
   console.log(`Servidor rodando em http://localhost:${port}`)
