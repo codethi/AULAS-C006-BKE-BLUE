@@ -1,0 +1,14 @@
+[
+	{
+		"nome": "Nake Terminator",
+		"imagemUrl": "https://rickandmortyapi.com/api/character/avatar/577.jpeg"
+	},
+	{
+		"nome": "Aqua Morty",
+		"imagemUrl": "https://rickandmortyapi.com/api/character/avatar/21.jpeg"
+	},
+	{
+		"nome": "Rick Sanchez",
+		"imagemUrl": "https://rickandmortyapi.com/api/character/avatar/1.jpeg"
+	}
+]
