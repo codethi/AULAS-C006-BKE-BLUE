@@ -17,18 +17,19 @@ const ObjectId = mongodb.ObjectId;
 	const db = client.db("blue_db");
 	const personagens = db.collection("personagens");
 
-	const getPersonagensValidas = () => personagens.find({}.toArray());
+    const getPersonagensValidas = () => personagens.find({}).toArray();
 
-	const getPersonagemById = async (id) =>
-		personagens.findOne({ _id: ObjectId(id) });
+  // const getPersonagemById = async(id) => personagens.findOne({_id: ObjectId(id)});
 
 	app.get("/", (req, res) => {
 		res.send({ info: "Olá, Blue" });
 	});
 
-	app.get("/personagens", async (req, res) => {
-		res.send(await getPersonagensValidas());
-	});
+    //[GET] GetAllPersonagens
+
+    app.get("/personagens", async (req, res) => {
+        res.send(await getPersonagensValidas())
+    });
 
 	app.listen(port, () => {
 		console.info(`App rodando em http://localhost:${port}`);
