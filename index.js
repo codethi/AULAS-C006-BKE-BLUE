@@ -4,12 +4,13 @@ const ObjectId = mongodb.ObjectId;
 require("dotenv").config();
 
 (async () => {
-	const dbHost = process.env.DB_HOST;
+	const dbHost = process.env.DB_HoST;
 	const dbPort = process.env.DB_PORT;
 	const dbName = process.env.DB_NAME;
 
 	const app = express();
 	app.use(express.json());
+
 	const port = process.env.PORT || 3000;
 	const connectionString = `mongodb://${dbHost}:${dbPort}/${dbName}`;
 
@@ -27,10 +28,12 @@ require("dotenv").config();
 	const getPersonagemById = async (id) =>
 		personagens.findOne({ _id: ObjectId(id) });
 
-	app.all("/*", (req, res, next) => {
+	//CORS
+
+	app.all("/personagens", (req, res, next) => {
 		res.header("Access-Control-Allow-Origin", "*");
 
-		res.header("Access-Control-Allow-Methods", "*");
+		res.header("Access-Control-Allow-Methods", "GET");
 
 		res.header(
 			"Access-Control-Allow-Headers",
@@ -62,12 +65,14 @@ require("dotenv").config();
 		const objeto = req.body;
 
 		if (!objeto || !objeto.nome || !objeto.imagemUrl) {
-			res.send("Objeto invalido");
+			res.send(
+				"Requisição inválida, certifique-se que tenha os campos nome e imagemUrl"
+			);
 			return;
 		}
 
 		const insertCount = await personagens.insertOne(objeto);
-		console.log(insertCount);
+
 		if (!insertCount) {
 			res.send("Ocorreu um erro");
 			return;
@@ -76,6 +81,7 @@ require("dotenv").config();
 		res.send(objeto);
 	});
 
+	//[PUT] Atualizar personagem
 	app.put("/personagens/:id", async (req, res) => {
 		const id = req.params.id;
 		const objeto = req.body;
@@ -91,6 +97,7 @@ require("dotenv").config();
 		);
 	});
 
+	//[DELETE] Deleta um personagem
 	app.delete("/personagens/:id", async (req, res) => {
 		const id = req.params.id;
 
