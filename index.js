@@ -66,9 +66,9 @@ require("dotenv").config();
 			return;
 		}
 
-		const { insertCount } = await personagens.insertOne(objeto);
-
-		if (insertCount !== 1) {
+		const insertCount = await personagens.insertOne(objeto);
+		console.log(insertCount);
+		if (!insertCount) {
 			res.send("Ocorreu um erro");
 			return;
 		}
