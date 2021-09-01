@@ -62,6 +62,7 @@ require("dotenv").config();
 		res.send(personagem);
 	});
 
+	//[POST] Adicona personagem
 	app.post("/personagens", async (req, res) => {
 		const objeto = req.body;
 
@@ -72,9 +73,11 @@ require("dotenv").config();
 			return;
 		}
 
-		const insertCount = await personagens.insertOne(objeto);
+		const result = await personagens.insertOne(objeto);
 
-		if (!insertCount) {
+		console.log(result);
+		//Se ocorrer algum erro com o mongoDb esse if vai detectar
+		if (result.acknowledged == false) {
 			res.send("Ocorreu um erro");
 			return;
 		}
@@ -86,16 +89,37 @@ require("dotenv").config();
 	app.put("/personagens/:id", async (req, res) => {
 		const id = req.params.id;
 		const objeto = req.body;
-		res.send(
-			await personagens.updateOne(
-				{
-					_id: ObjectId(id),
-				},
-				{
-					$set: objeto,
-				}
-			)
-		);
+
+		if (!objeto || !objeto.nome || !objeto.imagemUrl) {
+			res.send(
+				"Requisição inválida, certifique-se que tenha os campos nome e imagemUrl"
+			);
+			return;
+		}
+
+		const quantidadePersonagens = await personagens.countDocuments({
+			_id: ObjectId(id),
+		});
+
+		if (quantidadePersonagens !== 1) {
+			res.send("Personagem não encontrado");
+			return;
+		}
+
+		const result = await personagens.updateOne(
+			{
+				_id: ObjectId(id),
+			},
+			{
+				$set: objeto,
+			}
+			);
+			//console.log(result);
+			//Se acontecer algum erro no MongoDb, cai na seguinte valiadação
+			if(result.modifiedCount !== 1){
+				res.send("Ocorreu um erro ao atualizar o personagem")
+			}
+			res.send(await getPersonagemById(id));
 	});
 
 	//[DELETE] Deleta um personagem
