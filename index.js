@@ -4,15 +4,15 @@ const ObjectId = mongodb.ObjectId;
 require("dotenv").config();
 
 (async () => {
-	const dbHost = process.env.DB_HoST;
-	const dbPort = process.env.DB_PORT;
+	const dbUser = process.env.DB_USER;
+	const dbPassword = process.env.DB_PASSWORD;
 	const dbName = process.env.DB_NAME;
 
 	const app = express();
 	app.use(express.json());
 
 	const port = process.env.PORT || 3000;
-	const connectionString = `mongodb://${dbHost}:${dbPort}/${dbName}`;
+	const connectionString = `mongodb+srv://${dbUser}:${dbPassword}@cluster0.qv4pc.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 
 	const options = {
 		useUnifiedTopology: true,
