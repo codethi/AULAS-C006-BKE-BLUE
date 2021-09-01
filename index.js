@@ -113,25 +113,39 @@ require("dotenv").config();
 			{
 				$set: objeto,
 			}
-			);
-			//console.log(result);
-			//Se acontecer algum erro no MongoDb, cai na seguinte valiadação
-			if(result.modifiedCount !== 1){
-				res.send("Ocorreu um erro ao atualizar o personagem")
-				return;
-			}
-			res.send(await getPersonagemById(id));
+		);
+		//console.log(result);
+		//Se acontecer algum erro no MongoDb, cai na seguinte valiadação
+		if (result.modifiedCount !== 1) {
+			res.send("Ocorreu um erro ao atualizar o personagem");
+			return;
+		}
+		res.send(await getPersonagemById(id));
 	});
 
 	//[DELETE] Deleta um personagem
 	app.delete("/personagens/:id", async (req, res) => {
 		const id = req.params.id;
+		//Retorna a quantidade de personagens com o filtro(Id) especificado
+		const quantidadePersonagens = await personagens.countDocuments({
+			_id: ObjectId(id),
+		});
+		//Checar se existe o personagem solicitado
+		if (quantidadePersonagens !== 1) {
+			res.send("Personagem não encontrao");
+			return;
+		}
+		//Deletar personagem
+		const result = await personagens.deleteOne({
+			_id: ObjectId(id),
+		});
+		//Se não con
+		if (result.deletedCount !== 1) {
+			res.send("Ocorreu um erro ao remover o personagem");
+			return;
+		}
 
-		res.send(
-			await personagens.deleteOne({
-				_id: ObjectId(id),
-			})
-		);
+		res.send("Personagem removido com sucesso!");
 	});
 
 	app.listen(port, () => {
