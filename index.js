@@ -19,7 +19,11 @@ require("dotenv").config();
 		useUnifiedTopology: true,
 	};
 
+	console.info("Conectando ao MongoDB Atlas...");
+
 	const client = await mongodb.MongoClient.connect(connectionString, options);
+
+	console.info("Conexão estabelecida com o MongoDB Atlas!");
 
 	const db = client.db("blue_db");
 	const personagens = db.collection("personagens");
