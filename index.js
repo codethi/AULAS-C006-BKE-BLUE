@@ -48,7 +48,7 @@ require("dotenv").config();
 		next();
 	});
 
-	app.get("/",  (req, res) => {
+	app.get("/", async (req, res) => {
 		const teste = undefined;
 		res.send({ info: "Olá, Blue" + teste.sdas});
 	});
