@@ -50,8 +50,7 @@ require("express-async-errors");
 	});
 
 	app.get("/", async (req, res) => {
-		const teste = undefined;
-		res.send({ info: "Olá, Blue" + teste.sdsa });
+		res.send({ info: "Olá, Blue" });
 	});
 
 	//[GET] GetAllPersonagens
