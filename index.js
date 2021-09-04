@@ -3,6 +3,8 @@ const mongodb = require("mongodb");
 const ObjectId = mongodb.ObjectId;
 require("dotenv").config();
 require("express-async-errors");
+//requires de endpoints
+const home = require("./components/home/home");
 
 (async () => {
 	const dbUser = process.env.DB_USER;
@@ -49,9 +51,8 @@ require("express-async-errors");
 		next();
 	});
 
-	app.get("/", async (req, res) => {
-		res.send({ info: "Olá, Blue" });
-	});
+	//Criando a rota Home
+	app.use("/home", home);
 
 	//[GET] GetAllPersonagens
 
@@ -183,6 +184,6 @@ require("express-async-errors");
 	});
 
 	app.listen(port, () => {
-		console.info(`App rodando em http://localhost:${port}`);
+		console.info(`App rodando em http://localhost:${port}/home`);
 	});
 })();
