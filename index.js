@@ -3,6 +3,7 @@ const mongodb = require("mongodb");
 const ObjectId = mongodb.ObjectId;
 require("dotenv").config();
 require("express-async-errors");
+var cors = require("cors");
 //requires de endpoints
 const home = require("./components/home/home");
 
@@ -36,9 +37,9 @@ const home = require("./components/home/home");
 	const getPersonagemById = async (id) =>
 		personagens.findOne({ _id: ObjectId(id) });
 
-	//CORS
+	//Construindo o liberação do CORS - ANTIGO
 
-	app.all("/*", (req, res, next) => {
+/* 	app.all("/*", (req, res, next) => {
 		res.header("Access-Control-Allow-Origin", "*");
 
 		res.header("Access-Control-Allow-Methods", "*");
@@ -50,6 +51,13 @@ const home = require("./components/home/home");
 
 		next();
 	});
+ */
+
+//CORS - NOVO
+//Liberar o CORS  em todas as nossas requisições
+app.use(cors());
+//Ativar todos os pre-flights
+app.options("*", cors());
 
 	//Criando a rota Home
 	app.use("/home", home);
