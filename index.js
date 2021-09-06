@@ -6,7 +6,7 @@ require("express-async-errors");
 var cors = require("cors");
 //requires de endpoints
 const home = require("./components/home/home");
-
+const readById = require("./components/read-by-id/read-by-id");
 (async () => {
 	const dbUser = process.env.DB_USER;
 	const dbPassword = process.env.DB_PASSWORD;
@@ -70,7 +70,7 @@ app.options("*", cors());
 
 	//[GET] getPersonagemById
 
-	app.get("/personagens/:id", async (req, res) => {
+/* 	app.get("/personagens/:id", async (req, res) => {
 		const id = req.params.id;
 		const personagem = await getPersonagemById(id);
 		if (!personagem) {
@@ -80,7 +80,10 @@ app.options("*", cors());
 			return;
 		}
 		res.send(personagem);
-	});
+	}); */
+
+	//Nova chamada de rota - arquivo separado
+	app.use("/personagens/read-by-id*/", readById);
 
 	//[POST] Adicona personagem
 	app.post("/personagens", async (req, res) => {
