@@ -83,7 +83,7 @@ app.options("*", cors());
 	}); */
 
 	//Nova chamada de rota - arquivo separado
-	app.use("/personagens/read-by-id*/", readById);
+	app.use("/personagens/read-by-id/", readById);
 
 	//[POST] Adicona personagem
 	app.post("/personagens", async (req, res) => {
